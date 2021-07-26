@@ -1,10 +1,62 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from '../app/hooks';
 import styled from 'styled-components';
-
+import { Redirect } from 'react-router';
+import { fetchPosts } from '../app/postsSlice';
 const Home = () => {
+  const user = useAppSelector((state) => state.user);
+  const fetechedPosts = useAppSelector((state) => state.posts.posts);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchPosts());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  type singlePost = {
+    content: string;
+    userName: string;
+    userPhoto: string;
+  };
+
+  const RenderPosts = () => {
+    return fetechedPosts.map((item: singlePost) => {
+      return (
+        <PostContainer key={item.userName}>
+          <PostAvatar>
+            <img src={item.userPhoto} alt="user" />
+          </PostAvatar>
+          <PostData>
+            <UserAndDate>
+              <p>{item.userName}</p>
+              <p>@{item.userName} . 1h.</p>
+            </UserAndDate>
+            <PostContent>{item.content}</PostContent>
+            <SocialButtons>
+              <li>
+                <img src="/images/message-circle.svg" alt="" />
+              </li>
+              <li>
+                <img src="/images/share-2.svg" alt="" />
+              </li>
+              <li>
+                {' '}
+                <img src="/images/heart.svg" alt="" />
+              </li>
+              <li>
+                {' '}
+                <img src="/images/share.svg" alt="" />
+              </li>
+            </SocialButtons>
+          </PostData>
+        </PostContainer>
+      );
+    });
+  };
+
   return (
     <Container>
+      {user.userName ? null : <Redirect to="/" />}
+
       <LeftArea>
         <ListItems>
           <Logo>
@@ -45,9 +97,9 @@ const Home = () => {
         </ListItems>
         <LeftTweetButton>Tweet</LeftTweetButton>
         <ProfileArea>
-          <Avatar src="/images/user.svg" alt="user" />
+          <Avatar src={user.photoURL} alt="user" />
           <UserName>
-            Andrzej <p>@Andrzej</p>
+            {user.userName} <p>@{user.userName}</p>
           </UserName>
           <More src="/images/more.svg" alt="Home" />
         </ProfileArea>
@@ -58,7 +110,7 @@ const Home = () => {
         </TopBar>
         <PostArea>
           <PostText>
-            <img src="/images/user.svg" alt="user" />{' '}
+            <img src={user.photoURL} alt="user" />{' '}
             <textarea placeholder="What's hapenning?" />
           </PostText>
           <PostButtons>
@@ -83,6 +135,7 @@ const Home = () => {
           </PostButtons>
         </PostArea>
         <Break />
+        <RetrievedPosts>{fetechedPosts[0] && RenderPosts()}</RetrievedPosts>
       </MiddleArea>
       <RightArea>Prawa</RightArea>
     </Container>
@@ -110,6 +163,9 @@ const MiddleArea = styled.div`
   flex-direction: column;
 `;
 const RightArea = styled.div``;
+const Logo = styled.div`
+  margin-left: 15px;
+`;
 const ListItems = styled.ul`
   list-style-type: none;
   font-family: inherit;
@@ -235,7 +291,7 @@ const PostText = styled.div`
     border-radius: 50%;
   }
 `;
-const Logo = styled.div``;
+
 const PostTweet = styled(TweetButton)`
   width: 80px;
   height: 40px;
@@ -249,12 +305,74 @@ const PostButtons = styled.div`
   margin-bottom: 15px;
   margin-left: 65px;
   ul {
+    &:hover {
+      cursor: pointer;
+    }
     li {
       display: inline;
       margin-right: 20px;
       img {
         width: 22px;
       }
+    }
+  }
+`;
+
+const RetrievedPosts = styled.div`
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+`;
+
+const PostContainer = styled.div`
+  display: flex;
+  border-bottom: solid rgba(255, 255, 255, 0.2) 1px;
+`;
+
+const PostAvatar = styled.div`
+  img {
+    width: 40px;
+    border-radius: 50%;
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+`;
+const PostData = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-width: 80%;
+`;
+const UserAndDate = styled.div`
+  display: flex;
+  margin-top: 10px;
+  margin-left: 7px;
+  p:nth-child(1) {
+    font-weight: 600;
+    margin-right: 5px;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  p:nth-child(2) {
+    color: rgba(255, 255, 255, 0.6);
+  }
+`;
+const PostContent = styled.div`
+  margin-left: 7px;
+  margin-top: 5px;
+`;
+const SocialButtons = styled.ul`
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 20px;
+  margin-top: 15px;
+  margin-left: 7px;
+  margin-bottom: 7px;
+  li {
+    img {
+      width: 20px;
+      opacity: 0.5;
     }
   }
 `;

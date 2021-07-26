@@ -1,10 +1,31 @@
-import React  from "react";
-
+import React from 'react';
+import { auth, provider } from '../firebase';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { setActiveUser } from '../app/userSlice';
 import styled from 'styled-components';
+import { Redirect } from 'react-router';
 
-const Login = ():JSX.Element => {
+const Login = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user);
+
+  const handleSignIn = () => {
+    auth.signInWithPopup(provider).then((result) => {
+      console.log(result);
+      dispatch(
+        setActiveUser({
+          userName: result.user?.displayName,
+          userEmail: result.user?.email,
+          photoURL: result.user?.photoURL,
+          userId: result.user?.uid,
+        })
+      );
+    });
+  };
+
   return (
     <>
+      {user.userName && <Redirect to="/home" />}
       <Container>
         <LeftArea>
           <img src="/images/logo.svg" alt="logo"></img>
@@ -14,7 +35,10 @@ const Login = ():JSX.Element => {
           <Motto>Simple Twitter clone build using React and TypeScript</Motto>
           <JoinText>Join Twitter today.</JoinText>
           <RegisterButton>Sign up</RegisterButton>
-          <LoginButton><img src="/images/google.svg" alt="google"/>Log in</LoginButton>
+          <LoginButton onClick={() => handleSignIn()}>
+            <img src="/images/google.svg" alt="google" />
+            Log in
+          </LoginButton>
         </RightArea>
       </Container>
       <Footer>Footer</Footer>
@@ -88,9 +112,9 @@ const RegisterButton = styled.button`
 `;
 
 const LoginButton = styled.button`
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: solid #1da1f2 1px;
   border-radius: 50px;
@@ -103,11 +127,11 @@ const LoginButton = styled.button`
   font-size: 16px;
   cursor: pointer;
   transition: background 0.5s ease-in-out;
-  
-  img{
-    width:24px;
-    margin-bottom:0;
-    margin-right:5px;
+
+  img {
+    width: 24px;
+    margin-bottom: 0;
+    margin-right: 5px;
   }
   &:hover {
     background: rgba(2, 148, 237, 0.1);
