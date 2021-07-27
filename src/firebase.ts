@@ -1,6 +1,5 @@
 import firebase from 'firebase';
 
-console.log(process.env);
 const {
   REACT_APP_APIKEY,
   REACT_APP_authDomain,

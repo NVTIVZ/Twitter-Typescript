@@ -1,12 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import styled from 'styled-components';
 import { Redirect } from 'react-router';
-import { fetchPosts } from '../app/postsSlice';
+import { Link } from 'react-router-dom';
+import { fetchPosts, uploadPost } from '../app/postsSlice';
+import moment from 'moment';
+
 const Home = () => {
   const user = useAppSelector((state) => state.user);
   const fetechedPosts = useAppSelector((state) => state.posts.posts);
   const dispatch = useAppDispatch();
+
+  const [editorText, setEditorText] = useState('');
+
   useEffect(() => {
     dispatch(fetchPosts());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -16,19 +22,36 @@ const Home = () => {
     content: string;
     userName: string;
     userPhoto: string;
+    created: any;
+  };
+
+  const handleUpload = () => {
+    dispatch(
+      uploadPost({
+        text: editorText,
+        uploadUser: user.userName,
+        uploadUserPhoto: user.photoURL,
+      })
+    );
+    setEditorText('');
+    dispatch(fetchPosts());
   };
 
   const RenderPosts = () => {
-    return fetechedPosts.map((item: singlePost) => {
+    return fetechedPosts.map((item: singlePost, key: number) => {
+      const timePassed = moment(item.created, 'DD.MM.YYYY, hh:mm:ss').fromNow();
+
       return (
-        <PostContainer key={item.userName}>
+        <PostContainer key={key}>
           <PostAvatar>
             <img src={item.userPhoto} alt="user" />
           </PostAvatar>
           <PostData>
             <UserAndDate>
               <p>{item.userName}</p>
-              <p>@{item.userName} . 1h.</p>
+              <p>
+                @{item.userName} . {timePassed}.
+              </p>
             </UserAndDate>
             <PostContent>{item.content}</PostContent>
             <SocialButtons>
@@ -60,7 +83,9 @@ const Home = () => {
       <LeftArea>
         <ListItems>
           <Logo>
-            <img src="/images/logo.svg" alt="logo" />
+            <Link to="/">
+              <img src="/images/logo.svg" alt="logo" />
+            </Link>
           </Logo>
           <Item>
             <img src="/images/home.svg" alt="Home" />
@@ -111,7 +136,11 @@ const Home = () => {
         <PostArea>
           <PostText>
             <img src={user.photoURL} alt="user" />{' '}
-            <textarea placeholder="What's hapenning?" />
+            <textarea
+              value={editorText}
+              onChange={(e) => setEditorText(e.target.value)}
+              placeholder="What's hapenning?"
+            />
           </PostText>
           <PostButtons>
             <ul>
@@ -131,7 +160,13 @@ const Home = () => {
                 <img src="/images/calendar.svg" alt="calendar" />
               </li>
             </ul>
-            <PostTweet>Tweet</PostTweet>
+            <PostTweet
+              onClick={() => {
+                handleUpload();
+              }}
+            >
+              Tweet
+            </PostTweet>
           </PostButtons>
         </PostArea>
         <Break />
@@ -152,6 +187,8 @@ const Container = styled.div`
 const LeftArea = styled.div`
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: 0;
   align-items: center;
   font-family: inherit;
   border-right: solid rgba(255, 255, 255, 0.2) 1px;
