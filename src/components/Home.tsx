@@ -172,7 +172,12 @@ const Home = () => {
         <Break />
         <RetrievedPosts>{fetechedPosts[0] && RenderPosts()}</RetrievedPosts>
       </MiddleArea>
-      <RightArea>Prawa</RightArea>
+      <RightArea>
+        <Search>
+          <img src="/images/search.svg" alt="search" />
+          <input type="text" placeholder="Search Twitter" />
+        </Search>
+      </RightArea>
     </Container>
   );
 };
@@ -181,8 +186,8 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 2fr 4fr 3fr;
   color: rgba(255, 255, 255, 0.9);
-  margin-left: 200px;
-  margin-right: 200px;
+  margin-left: 250px;
+  margin-right: 250px;
 `;
 const LeftArea = styled.div`
   display: flex;
@@ -199,7 +204,12 @@ const MiddleArea = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const RightArea = styled.div``;
+const RightArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  margin-left: 30px;
+`;
 const Logo = styled.div`
   margin-left: 15px;
 `;
@@ -411,6 +421,31 @@ const SocialButtons = styled.ul`
       width: 20px;
       opacity: 0.5;
     }
+  }
+`;
+
+const Search = styled.div`
+  display: flex;
+  background: rgb(21, 24, 28);
+  padding: 10px 18px;
+  border-radius: 1111px;
+  margin-top: 4px;
+  border: 1px solid transparent;
+  img {
+    opacity: 0.5;
+    margin-right: 15px;
+  }
+  input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    width: 80%;
+    font-size: 15px;
+  }
+  &:focus-within {
+    border: 1px solid #1da1f2;
+    background: transparent;
   }
 `;
 
