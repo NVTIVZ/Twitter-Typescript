@@ -161,6 +161,7 @@ const Home = () => {
               </li>
             </ul>
             <PostTweet
+              disabled={!editorText ? true : false}
               onClick={() => {
                 handleUpload();
               }}
@@ -177,6 +178,76 @@ const Home = () => {
           <img src="/images/search.svg" alt="search" />
           <input type="text" placeholder="Search Twitter" />
         </Search>
+        <FirstPanel>
+          <div>
+            <span>Trends for you</span>
+          </div>
+          <div>
+            <p>Trending in Poland</p>
+            <p>#highleague</p>
+            <p>15.9K Tweets</p>
+          </div>
+          <div>
+            <p>Trending in Poland</p>
+            <p>#inflacja</p>
+            <p>12.3K Tweets</p>
+          </div>
+          <div>
+            <p>Trending in Poland</p>
+            <p>Natsu</p>
+            <p>11.9K Tweets</p>
+          </div>
+          <div>
+            <p>Trending in Poland</p>
+            <p>#pozdromarek</p>
+            <p>25.9K Tweets</p>
+          </div>
+          <div>
+            <p>Trending in Poland</p>
+            <p>Muszynski</p>
+            <p>2,111 Tweets</p>
+          </div>
+
+          <div>Show More</div>
+        </FirstPanel>
+        <SecondPanel>
+          <div>
+            <span>Who to follow</span>
+          </div>
+          <FollowContent>
+            <img src="/images/user.svg" alt="usr" />
+            <div>
+              <p>Andrzej Glowica</p>
+              <p>@Glowica</p>
+            </div>
+            <FollowButton>Follow</FollowButton>
+          </FollowContent>
+          <FollowContent>
+            <img src="/images/user.svg" alt="usr" />
+            <div>
+              <p>Andrzej Glowica</p>
+              <p>@Glowica</p>
+            </div>
+            <FollowButton>Follow</FollowButton>
+          </FollowContent>
+          <FollowContent>
+            <img src="/images/user.svg" alt="usr" />
+            <div>
+              <p>Andrzej Glowica</p>
+              <p>@Glowica</p>
+            </div>
+            <FollowButton>Follow</FollowButton>
+          </FollowContent>
+          <div>Show more</div>
+        </SecondPanel>
+        <Tos>
+          <p>Terms of Service</p>
+          <p>Privacy Policy</p>
+          <p>Cookie Policy</p>
+          <p>Ads info</p>
+          <p>More ...</p>
+          <p>© 2021 Twitter, Inc.</p>
+        </Tos>
       </RightArea>
     </Container>
   );
@@ -188,6 +259,11 @@ const Container = styled.div`
   color: rgba(255, 255, 255, 0.9);
   margin-left: 250px;
   margin-right: 250px;
+  @media (max-width: 768px) {
+    display: flex;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
 `;
 const LeftArea = styled.div`
   display: flex;
@@ -198,6 +274,9 @@ const LeftArea = styled.div`
   font-family: inherit;
   border-right: solid rgba(255, 255, 255, 0.2) 1px;
   height: 100vh;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const MiddleArea = styled.div`
   border-right: solid rgba(255, 255, 255, 0.2) 1px;
@@ -207,8 +286,14 @@ const MiddleArea = styled.div`
 const RightArea = styled.div`
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
   width: 350px;
   margin-left: 30px;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const Logo = styled.div`
   margin-left: 15px;
@@ -344,6 +429,9 @@ const PostTweet = styled(TweetButton)`
   height: 40px;
   margin-left: auto;
   margin-right: 10px;
+  &:disabled {
+    background: gray;
+  }
 `;
 const PostButtons = styled.div`
   display: flex;
@@ -413,13 +501,36 @@ const SocialButtons = styled.ul`
   display: flex;
   justify-content: space-between;
   margin-right: 20px;
-  margin-top: 15px;
+  margin-top: 10px;
   margin-left: 7px;
-  margin-bottom: 7px;
+  margin-bottom: 3px;
   li {
+    padding: 6px 7px;
+    border-radius: 50%;
+    transition: background 0.2s ease-in-out;
     img {
       width: 20px;
       opacity: 0.5;
+    }
+  }
+  li:nth-child(1) {
+    &:hover {
+      background: rgba(29, 161, 242, 0.2);
+    }
+  }
+  li:nth-child(2) {
+    &:hover {
+      background: rgba(2, 237, 85, 0.2);
+    }
+  }
+  li:nth-child(3) {
+    &:hover {
+      background: rgba(194, 21, 85, 0.3);
+    }
+  }
+  li:nth-child(4) {
+    &:hover {
+      background: rgba(29, 161, 242, 0.2);
     }
   }
 `;
@@ -446,6 +557,99 @@ const Search = styled.div`
   &:focus-within {
     border: 1px solid #1da1f2;
     background: transparent;
+  }
+`;
+
+const PanelsExample = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: rgb(21, 24, 28);
+  margin-top: 25px;
+  border-radius: 15px;
+  & > div {
+    padding: 12px;
+    transition: background 0.2s ease-in-out;
+    span {
+      font-weight: 600;
+      font-size: 18px;
+    }
+  }
+  & > div:not(:last-child) {
+    border-bottom: solid rgba(255, 255, 255, 0.2) 1px;
+  }
+  div:last-child {
+    color: #1da1f2;
+    border-radius: 0 0 15px 15px;
+    padding: 18px 12px;
+  }
+  & > div:not(:first-child) {
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+    }
+  }
+`;
+
+const FirstPanel = styled(PanelsExample)`
+  p:nth-child(2n + 1) {
+    opacity: 0.5;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+  p:nth-child(2) {
+    font-size: 15px;
+    font-weight: 600;
+  }
+`;
+
+const SecondPanel = styled(PanelsExample)``;
+
+const FollowContent = styled.div`
+  display: flex;
+  align-items: center;
+  p:nth-child(1) {
+    font-weight: 600;
+    font-size: 15px;
+  }
+  p:nth-child(2) {
+    opacity: 0.5;
+    font-size: 14px;
+  }
+  img {
+    width: 48px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+`;
+
+const FollowButton = styled(TweetButton)`
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid #1da1f2;
+  color: #1da1f2;
+  padding: 4px 10px;
+  font-size: 17px;
+  &:hover {
+    background: rgba(2, 148, 237, 0.1);
+  }
+`;
+
+const Tos = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 12px;
+  opacity: 0.5;
+  margin-top: 15px;
+  p {
+    margin-right: 12px;
+    margin-top: 2px;
+  }
+  p:not(:last-child) {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 

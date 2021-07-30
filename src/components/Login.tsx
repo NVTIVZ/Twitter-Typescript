@@ -41,7 +41,14 @@ const Login = (): JSX.Element => {
           </LoginButton>
         </RightArea>
       </Container>
-      <Footer>Footer</Footer>
+      <Footer>
+        <p>About</p> <p>Help Center</p> <p>Terms of Service</p>
+        <p>Privacy Policy</p> <p>Cookie Policy</p> <p>Ads info</p>
+        <p>Blog</p> <p>Status</p> <p>Careers</p> <p>Brand Resources</p>
+        <p>Advertising</p> <p>Marketing</p> <p>Twitter for Business</p>
+        <p>Developers</p> <p>Directory</p> <p>Settings</p>
+        <p>© 2021 Twitter, Inc.</p>
+      </Footer>
     </>
   );
 };
@@ -139,10 +146,23 @@ const LoginButton = styled.button`
 `;
 
 const Footer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: black;
   height: 5vh;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 11.5px;
+  p {
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+  p:not(:last-child) {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `;
 
 export default Login;
