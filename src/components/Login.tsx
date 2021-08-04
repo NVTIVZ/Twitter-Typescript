@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { auth, provider } from '../firebase';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { setActiveUser } from '../app/userSlice';
 import styled from 'styled-components';
 import { Redirect } from 'react-router';
+import LoginModal from './LoginModal';
+import RegisterModal from './RegisterModal';
 
 const Login = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
+  const [activeSignIn, setActiveSignIn] = useState(false);
+  const [activeRegister, setActiveRegister] = useState(false);
 
   const handleSignIn = () => {
     auth.signInWithPopup(provider).then((result) => {
@@ -27,6 +31,10 @@ const Login = (): JSX.Element => {
     <>
       {user.userName && <Redirect to="/home" />}
       <Container>
+        {activeSignIn ? <LoginModal closeModal={setActiveSignIn} /> : null}
+        {activeRegister ? (
+          <RegisterModal closeModal={setActiveRegister} />
+        ) : null}
         <LeftArea>
           <img src="/images/logo.svg" alt="logo"></img>
         </LeftArea>
@@ -34,9 +42,10 @@ const Login = (): JSX.Element => {
           <img src="/images/logo.svg" alt="logo-small"></img>
           <Motto>Simple Twitter clone build using React and TypeScript</Motto>
           <JoinText>Join Twitter today.</JoinText>
-          <RegisterButton>Sign up</RegisterButton>
-          <LoginButton onClick={() => handleSignIn()}>
-            <img src="/images/google.svg" alt="google" />
+          <RegisterButton onClick={() => setActiveRegister(true)}>
+            Sign up
+          </RegisterButton>
+          <LoginButton onClick={() => setActiveSignIn(true)}>
             Log in
           </LoginButton>
         </RightArea>
