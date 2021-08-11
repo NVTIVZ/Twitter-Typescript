@@ -24,9 +24,8 @@ export const fetchUserDetails = createAsyncThunk(
       .collection('users')
       .where('userId', '==', userId)
       .get();
-    console.log(response);
+
     const data = response.docs.map((user) => user.data());
-    console.log(data);
     return data[0];
   }
 );
