@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import db from '../firebase';
-import firebase from 'firebase';
 
 type userState = {
   userName: string | null;
@@ -21,9 +20,14 @@ const initialState: userState = {
 export const fetchUserDetails = createAsyncThunk(
   'user/fetchUserDetails',
   async (userId: any) => {
-    const response = await db.collection('users').doc(userId).get();
-    const data = response.data();
-    return data;
+    const response = await db
+      .collection('users')
+      .where('userId', '==', userId)
+      .get();
+    console.log(response);
+    const data = response.docs.map((user) => user.data());
+    console.log(data);
+    return data[0];
   }
 );
 

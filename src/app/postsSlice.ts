@@ -20,8 +20,7 @@ export const uploadPost = createAsyncThunk(
     db.collection('posts').add({
       content: payload.text,
       created: firebase.firestore.Timestamp.now(),
-      userName: payload.uploadUser,
-      userPhoto: payload.uploadUserPhoto,
+      userId: payload.uploadId,
     });
   }
 );

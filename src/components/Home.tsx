@@ -31,8 +31,7 @@ const Home = () => {
     dispatch(
       uploadPost({
         text: editorText,
-        uploadUser: user.userName,
-        uploadUserPhoto: user.photoURL,
+        uploadId: user.userId,
       })
     );
     setEditorText('');

@@ -1,6 +1,41 @@
 import styled from 'styled-components';
+import { useState } from 'react';
+import db, { doesUsernameExists, auth } from '../firebase';
 
 const RegisterModal = ({ closeModal }: any): any => {
+  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleRegister = async (e: any) => {
+    e.preventDefault();
+    const usernameExists = await doesUsernameExists(userName);
+    if (usernameExists) {
+      try {
+        const createdUser = await auth.createUserWithEmailAndPassword(
+          email,
+          password
+        );
+        await db.collection('users').add({
+          userId: createdUser.user?.uid,
+          displayname: displayName,
+          username: userName,
+        });
+        setError('');
+        setEmail('');
+        setDisplayName('');
+        setPassword('');
+        setUserName('');
+        setMessage('Account Created');
+      } catch (err) {
+        setError(err.message);
+      }
+    }
+  };
+
   return (
     <Container>
       <Modal>
@@ -11,11 +46,40 @@ const RegisterModal = ({ closeModal }: any): any => {
           </div>
 
           <p>Register to Twitter</p>
-          <input type="E-mail" placeholder="E-mail" />
-          <input type="text" placeholder="Username" />
-          <input type="text" placeholder="Display name" />
-          <input type="password" placeholder="Password" />
-          <button>Register</button>
+          <form onSubmit={handleRegister} method="POST">
+            <input
+              type="E-mail"
+              placeholder="E-mail"
+              value={email}
+              onChange={(e: any) => setEmail(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Username"
+              value={userName}
+              onChange={(e: any) => setUserName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Display name"
+              value={displayName}
+              onChange={(e: any) => setDisplayName(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e: any) => setPassword(e.target.value)}
+            />
+            <button
+              disabled={
+                displayName.length < 1 || userName.length < 1 ? true : false
+              }
+            >
+              Register
+            </button>
+          </form>
+          <span>{error ? error : message}</span>
         </Content>
       </Modal>
     </Container>
@@ -94,13 +158,21 @@ const Content = styled.div`
     height: 50px;
     color: white;
     font-weight: 700;
-    margin-top: 30px;
+    margin-top: 20px;
     font-size: 16px;
     cursor: pointer;
     transition: background 0.5s ease-in-out;
     &:hover {
       background: #0294ed;
     }
+    &:disabled {
+      background: gray;
+    }
+  }
+  span {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 17px;
   }
 `;
 

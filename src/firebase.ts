@@ -29,5 +29,13 @@ const provider = new firebase.auth.GoogleAuthProvider();
 
 const storage = firebase.storage();
 
+export async function doesUsernameExists(username: string) {
+  const result = await db
+    .collection('users')
+    .where('username', '==', username)
+    .get();
+  return result.docs.map((user) => user.data().length > 0);
+}
+
 export { auth, provider, storage };
 export default db;

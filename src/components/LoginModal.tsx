@@ -24,6 +24,8 @@ const LoginModal = ({ closeModal }: any): any => {
       })
       .catch((err) => {
         setError(err.message);
+        setPassword('');
+        setEmail('');
       });
   };
   return (
@@ -40,11 +42,13 @@ const LoginModal = ({ closeModal }: any): any => {
             <input
               type="email"
               placeholder="E-mail"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
               type="password"
               placeholder="Password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <button>Log In</button>
