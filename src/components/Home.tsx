@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import { fetchPosts, uploadPost } from '../app/postsSlice';
+import { fetchUserDetails } from '../app/userSlice';
 import moment from 'moment';
 
 const Home = () => {
@@ -14,6 +15,7 @@ const Home = () => {
   const [editorText, setEditorText] = useState('');
 
   useEffect(() => {
+    dispatch(fetchUserDetails(user.userId));
     dispatch(fetchPosts());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -78,7 +80,7 @@ const Home = () => {
 
   return (
     <Container>
-      {user.userName ? null : <Redirect to="/" />}
+      {user.userEmail ? null : <Redirect to="/" />}
 
       <LeftArea>
         <ListItems>
@@ -122,9 +124,12 @@ const Home = () => {
         </ListItems>
         <LeftTweetButton>Tweet</LeftTweetButton>
         <ProfileArea>
-          <Avatar src={user.photoURL} alt="user" />
+          <Avatar
+            src={user.photoURL ? user.photoURL : '/images/user.svg'}
+            alt="user"
+          />
           <UserName>
-            {user.userName} <p>@{user.userName}</p>
+            {user.displayName} <p>@{user.userName}</p>
           </UserName>
           <More src="/images/more.svg" alt="Home" />
         </ProfileArea>
@@ -135,7 +140,10 @@ const Home = () => {
         </TopBar>
         <PostArea>
           <PostText>
-            <img src={user.photoURL} alt="user" />{' '}
+            <img
+              src={user.photoURL ? user.photoURL : '/images/user.svg'}
+              alt="user"
+            />{' '}
             <textarea
               value={editorText}
               onChange={(e) => setEditorText(e.target.value)}

@@ -11,6 +11,7 @@ const RegisterModal = ({ closeModal }: any): any => {
           </div>
 
           <p>Register to Twitter</p>
+          <input type="E-mail" placeholder="E-mail" />
           <input type="text" placeholder="Username" />
           <input type="text" placeholder="Display name" />
           <input type="password" placeholder="Password" />

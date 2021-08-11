@@ -1,35 +1,18 @@
 import React, { useState } from 'react';
-import { auth, provider } from '../firebase';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setActiveUser } from '../app/userSlice';
+import { useAppSelector } from '../app/hooks';
 import styled from 'styled-components';
 import { Redirect } from 'react-router';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 
 const Login = (): JSX.Element => {
-  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [activeSignIn, setActiveSignIn] = useState(false);
   const [activeRegister, setActiveRegister] = useState(false);
 
-  const handleSignIn = () => {
-    auth.signInWithPopup(provider).then((result) => {
-      console.log(result);
-      dispatch(
-        setActiveUser({
-          userName: result.user?.displayName,
-          userEmail: result.user?.email,
-          photoURL: result.user?.photoURL,
-          userId: result.user?.uid,
-        })
-      );
-    });
-  };
-
   return (
     <>
-      {user.userName && <Redirect to="/home" />}
+      {user.userEmail && <Redirect to="/home" />}
       <Container>
         {activeSignIn ? <LoginModal closeModal={setActiveSignIn} /> : null}
         {activeRegister ? (

@@ -1,6 +1,31 @@
 import styled from 'styled-components';
-
+import { useState } from 'react';
+import { auth } from '../firebase';
+import { setActiveUser } from '../app/userSlice';
+import { useAppDispatch } from '../app/hooks';
 const LoginModal = ({ closeModal }: any): any => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
+  const [error, setError] = useState('');
+
+  const handleLogin = (e: any) => {
+    e.preventDefault();
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        console.log(result);
+        dispatch(
+          setActiveUser({
+            userEmail: result.user?.email,
+            userId: result.user?.uid,
+          })
+        );
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  };
   return (
     <Container>
       <Modal>
@@ -11,9 +36,20 @@ const LoginModal = ({ closeModal }: any): any => {
           </div>
 
           <p>Log In to Twitter</p>
-          <input type="text" placeholder="Username" />
-          <input type="password" placeholder="Password" />
-          <button>Log In</button>
+          <form method="POST" onSubmit={handleLogin}>
+            <input
+              type="email"
+              placeholder="E-mail"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button>Log In</button>
+          </form>
+          {error}
         </Content>
       </Modal>
     </Container>
@@ -93,6 +129,7 @@ const Content = styled.div`
     color: white;
     font-weight: 700;
     margin-top: 30px;
+    margin-bottom: 20px;
     font-size: 16px;
     cursor: pointer;
     transition: background 0.5s ease-in-out;
