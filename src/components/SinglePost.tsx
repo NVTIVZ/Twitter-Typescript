@@ -28,7 +28,7 @@ const SinglePost = (props: any) => {
     const data = response.docs.map((user) => user.data());
     setInfo(data[0]);
   };
-  console.log(info);
+
   const timePassed = moment(item.created, 'DD.MM.YYYY, hh:mm:ss').fromNow();
   return (
     <PostContainer>

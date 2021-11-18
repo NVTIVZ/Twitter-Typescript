@@ -78,7 +78,7 @@ const Home = () => {
         <ListItems>
           <Logo>
             <Link to="/">
-              <img src="/images/logo.svg" alt="logo" />
+              <img src="/images/logo.svg" alt="logo" height="75px" />
             </Link>
           </Logo>
           <Item>
@@ -121,7 +121,7 @@ const Home = () => {
             alt="user"
           />
           <UserName>
-            {user.displayName} <p>@{user.userName}</p>
+            {user.displayname} <p>@{user.username}</p>
           </UserName>
           <More src="/images/more.svg" alt="Home" />
         </ProfileArea>

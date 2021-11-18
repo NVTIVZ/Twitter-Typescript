@@ -44,6 +44,7 @@ export const RightArea = styled.div`
 `;
 export const Logo = styled.div`
   margin-left: 15px;
+  margin-top: 15px;
 `;
 export const ListItems = styled.ul`
   list-style-type: none;
