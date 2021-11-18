@@ -10,7 +10,7 @@ export const LeftArea = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('https://abs.twimg.com/sticky/illustrations/lohp_1302x955.png');
+  background-image: url('/images/loginbg.png');
   img {
     width: 378px;
   }
