@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import db from '../firebase';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   const response = db.collection('posts').orderBy('created', 'desc');
