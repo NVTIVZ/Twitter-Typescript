@@ -20,6 +20,7 @@ export const PostData = styled.div`
 `;
 export const UserAndDate = styled.div`
   display: flex;
+  flex-wrap: wrap;
   margin-top: 10px;
   margin-left: 7px;
   p:nth-child(1) {

@@ -4,6 +4,9 @@ export const Container = styled.div`
   height: 95vh;
   display: grid;
   grid-template-columns: 6fr 5fr;
+  @media (max-width: 468px) {
+    height: auto;
+  }
 `;
 
 export const LeftArea = styled.div`
@@ -16,6 +19,9 @@ export const LeftArea = styled.div`
   }
   svg {
     color: white;
+  }
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -42,6 +48,10 @@ export const Motto = styled.p`
   font-size: 60px;
   letter-spacing: -1.2px;
   line-height: 84px;
+  @media (max-width: 768px) {
+    font-size: 36px;
+    line-height: 48px;
+  }
 `;
 
 export const JoinText = styled.p`
@@ -62,6 +72,9 @@ export const RegisterButton = styled.button`
   transition: background 0.5s ease-in-out;
   &:hover {
     background: #0294ed;
+  }
+  @media (max-width: 768px) {
+    width: 275px;
   }
 `;
 
@@ -90,13 +103,20 @@ export const LoginButton = styled.button`
   &:hover {
     background: rgba(2, 148, 237, 0.1);
   }
+  @media (max-width: 768px) {
+    width: 275px;
+  }
 `;
 
 export const Footer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   background: black;
+  margin-top: auto;
+  padding-left: 5px;
+  padding-right: 5px;
   height: 5vh;
   color: rgba(255, 255, 255, 0.4);
   font-size: 11.5px;

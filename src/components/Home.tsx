@@ -78,12 +78,15 @@ const Home = () => {
         <ListItems>
           <Logo>
             <Link to="/">
-              <img src="/images/logo.svg" alt="logo" height="75px" />
+              <img src="/images/logo.svg" alt="logo" height="50px" />
             </Link>
           </Logo>
           <Item>
             <img src="/images/home.svg" alt="Home" />
             Home
+          </Item>
+          <Item>
+            <img src="/images/search2.svg" alt="Home" />
           </Item>
           <Item>
             <img src="/images/hash.svg" alt="Home" />

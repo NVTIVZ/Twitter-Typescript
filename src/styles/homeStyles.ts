@@ -2,33 +2,43 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: 2fr 4fr 3fr;
+
+  grid-template-columns: 4fr 7fr 6fr;
   color: rgba(255, 255, 255, 0.9);
-  margin-left: 250px;
-  margin-right: 250px;
+  margin-left: 8vw;
+  margin-right: 8vw;
   @media (max-width: 768px) {
     display: flex;
     margin-left: 0px;
     margin-right: 0px;
+  }
+  @media (max-width: 476px) {
+    position: relative;
   }
 `;
 export const LeftArea = styled.div`
   display: flex;
   flex-direction: column;
   position: sticky;
-  top: 0;
   align-items: center;
   font-family: inherit;
   border-right: solid rgba(255, 255, 255, 0.2) 1px;
   height: 100vh;
   @media (max-width: 768px) {
-    display: none;
+    font-size: 0px;
+  }
+  @media (max-width: 476px) {
+    position: absolute;
+    height: 50px;
+    bottom: 0;
+    border-right: none;
   }
 `;
 export const MiddleArea = styled.div`
   border-right: solid rgba(255, 255, 255, 0.2) 1px;
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 export const RightArea = styled.div`
   display: flex;
@@ -45,10 +55,47 @@ export const RightArea = styled.div`
 export const Logo = styled.div`
   margin-left: 15px;
   margin-top: 15px;
+  img {
+    @media (max-width: 768px) {
+      height: 28px;
+    }
+  }
 `;
 export const ListItems = styled.ul`
   list-style-type: none;
   font-family: inherit;
+  div:first-child {
+    @media (max-width: 476px) {
+      display: none;
+    }
+  }
+  li:nth-child(n + 7) {
+    @media (max-width: 476px) {
+      display: none;
+    }
+  }
+  li:nth-child(3) {
+    @media (min-width: 769px) {
+      display: none;
+    }
+  }
+  li:nth-child(4) {
+    @media (max-width: 769px) {
+      display: none;
+    }
+  }
+  @media (max-width: 476px) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: black;
+    width: 100%;
+    z-index: 99;
+    border-top: solid rgba(255, 255, 255, 0.2) 1px;
+  }
 `;
 export const Item = styled.li`
   display: flex;
@@ -67,6 +114,19 @@ export const Item = styled.li`
     color: #1da1f2;
     background: rgba(29, 161, 242, 0.2);
     cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    font-size: 0px;
+  }
+
+  @media (max-width: 476px) {
+    margin-top: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    &:hover {
+      background: none;
+      cursor: pointer;
+    }
   }
 `;
 
@@ -88,6 +148,9 @@ export const LeftTweetButton = styled(TweetButton)`
   margin-top: 25px;
   width: 250px;
   height: 50px;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 export const ProfileArea = styled.div`
   margin-top: auto;
@@ -100,6 +163,22 @@ export const ProfileArea = styled.div`
   &:hover {
     background: rgba(29, 161, 242, 0.2);
     cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    width: auto;
+  }
+  div {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+  img:last-child {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+  @media (max-width: 476px) {
+    display: none;
   }
 `;
 export const Avatar = styled.img`
@@ -157,7 +236,7 @@ export const PostText = styled.div`
     font-family: inherit;
     resize: none;
     color: white;
-    width: 450px;
+    width: auto;
     height: 35px;
     font-size: 24px;
     font-weight: 400;
@@ -187,6 +266,12 @@ export const PostButtons = styled.div`
   margin-top: 20px;
   margin-bottom: 15px;
   margin-left: 65px;
+  @media (max-width: 768px) {
+    margin-left: 35px;
+  }
+  @media (max-width: 476px) {
+    margin-left: 20px;
+  }
   ul {
     &:hover {
       cursor: pointer;
